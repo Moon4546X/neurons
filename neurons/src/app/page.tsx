@@ -6,7 +6,7 @@ export default function LoginPage() {
 
   return (
     <div className="h-screen flex flex-col justify-center items-center bg-gray-100">
-      <h1 className="text-3xl font-bold mb-6">Institution Name</h1>
+      <h1 className="text-3xl font-bold mb-6"></h1>
       <div className="grid grid-cols-2 gap-8">
         {/* Faculty Login */}
         <div className="p-6 bg-white shadow-md rounded-lg">
