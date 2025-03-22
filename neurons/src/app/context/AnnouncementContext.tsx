@@ -1,23 +1,43 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 
-// Create Announcement Context
-const AnnouncementContext = createContext(null);
+// Define the type for announcements
+interface Announcement {
+  message: string;
+  timestamp: string;
+}
+
+// Define context type
+interface AnnouncementContextType {
+  announcements: Announcement[];
+  addAnnouncement: (message: string) => void;
+}
+
+// Create the context
+const AnnouncementContext = createContext<AnnouncementContextType | undefined>(undefined);
 
 // Provider Component
-export const AnnouncementProvider = ({ children }) => {
-    const [announcements, setAnnouncements] = useState<string[]>([]);
+export function AnnouncementProvider({ children }: { children: ReactNode }) {
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 
-    const addAnnouncement = (message: string) => {
-        setAnnouncements((prev) => [...prev, message]);
-    };
+  // Function to add an announcement
+  const addAnnouncement = (message: string) => {
+    const newAnnouncement = { message, timestamp: new Date().toLocaleString() };
+    setAnnouncements((prev) => [newAnnouncement, ...prev]);
+  };
 
-    return (
-        <AnnouncementContext.Provider value={{ announcements, addAnnouncement }}>
-            {children}
-        </AnnouncementContext.Provider>
-    );
-};
+  return (
+    <AnnouncementContext.Provider value={{ announcements, addAnnouncement }}>
+      {children}
+    </AnnouncementContext.Provider>
+  );
+}
 
-// Hook to Use in Components
-export const useAnnouncement = () => useContext(AnnouncementContext);
+// Custom Hook to use AnnouncementContext
+export function useAnnouncement() {
+  const context = useContext(AnnouncementContext);
+  if (!context) {
+    throw new Error("useAnnouncement must be used within an AnnouncementProvider");
+  }
+  return context;
+}
