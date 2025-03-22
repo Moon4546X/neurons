@@ -1,6 +1,8 @@
 import AnnouncementForm from "../components/AnnouncementForm";
 import StudentList from "../components/StudentList";
 import Calendar from "../components/Calendar";
+import TODO from "../components/TODO";
+import Schedule from "../components/Schedule";
 
 export default function TeacherDashboard() {
     return (
@@ -9,6 +11,8 @@ export default function TeacherDashboard() {
             <div className="grid grid-cols-2 gap-4">
                 <AnnouncementForm />
                 <StudentList />
+                <TODO/>
+                <Schedule/>
             </div>
             <Calendar />
         </div>
