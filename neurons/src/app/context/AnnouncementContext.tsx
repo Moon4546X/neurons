@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 // Define the type for announcements
 interface Announcement {
@@ -20,10 +20,27 @@ const AnnouncementContext = createContext<AnnouncementContextType | undefined>(u
 export function AnnouncementProvider({ children }: { children: ReactNode }) {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 
+  // Load announcements from localStorage when the component mounts
+  useEffect(() => {
+    const storedAnnouncements = localStorage.getItem("announcements");
+    if (storedAnnouncements) {
+      setAnnouncements(JSON.parse(storedAnnouncements));
+    }
+  }, []);
+
+  // Save to localStorage whenever announcements change
+  useEffect(() => {
+    localStorage.setItem("announcements", JSON.stringify(announcements));
+  }, [announcements]);
+
   // Function to add an announcement
   const addAnnouncement = (message: string) => {
     const newAnnouncement = { message, timestamp: new Date().toLocaleString() };
-    setAnnouncements((prev) => [newAnnouncement, ...prev]);
+    setAnnouncements((prev) => {
+      const updatedAnnouncements = [newAnnouncement, ...prev];
+      localStorage.setItem("announcements", JSON.stringify(updatedAnnouncements)); // Save immediately
+      return updatedAnnouncements;
+    });
   };
 
   return (
