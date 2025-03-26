@@ -1,7 +1,8 @@
 const students = [
-    { name: "John Doe", id: "S001" },
-    { name: "Jane Smith", id: "S002" },
-    { name: "Alice Johnson", id: "S003" },
+    { name: "Achintya", id: "S001" },
+    { name: "Krishna", id: "S002" },
+    { name: "Muaviz", id: "S003" },
+    { name: "Tanshiq", id: "S004" }
 ];
 
 const StudentList = () => {
